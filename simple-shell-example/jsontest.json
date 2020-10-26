@@ -1,0 +1,5 @@
+{
+  "name": "jsontest",
+  "type": "groovy",
+  "content": "import groovy.json.JsonSlurper; import groovy.json.JsonOutput; def role = new JsonSlurper().parseText(args); return JsonOutput.toJson([result: 'Success!', message: role.id + ' - ' + role.name + ' - ' + role.description]);"
+}

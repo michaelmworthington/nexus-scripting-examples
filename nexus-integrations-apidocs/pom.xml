@@ -1,0 +1,202 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.sonatype.training.nxs301</groupId>
+  <artifactId>nexus-integrations-apidocs</artifactId>
+  <version>3.7.1-02</version>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <!--
+    Default compile support for Java8+
+    -->
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+
+    <nx-version>3.7.1-02</nx-version>
+
+  </properties>
+
+  <distributionManagement>
+    <repository>
+      <id>nexus</id>
+      <!-- Nexus 2 -->
+      <!--url>http://localhost:8082/nexus/content/repositories/releases</url-->
+
+      <!-- Nexus 3 -->
+      <!--
+      <url>http://localhost:8081/repository/test/</url>
+      <url>http://localhost:8083/nexus/repository/maven-releases/</url>
+      -->
+      <url>https://localhost:8443/repository/maven-releases/</url>
+
+    </repository>
+    <snapshotRepository>
+      <id>nexus</id>
+
+      <!-- Nexus 3 -->
+      <!--
+      <url>http://localhost:8082/nexus/content/repositories/Snapshots2</url>
+      <url>http://localhost:8082/nexus/content/repositories/snapshots</url>
+      -->
+      <url>http://localhost:8081/nexus/content/repositories/snapshots/</url>
+
+
+      <!-- Nexus 3 -->
+      <!--url>http://localhost:8883/repository/maven-snapshots/</url-->
+
+      <!-- Nexus 3 -->
+      <!--
+      <url>http://localhost:8083/nexus/repository/maven-snapshots/</url>
+      <url>http://localhost:8081/nexus/repository/maven-snapshots-s3ninja/</url>
+      <url>https://localhost:8443/repository/maven-snapshots/</url>
+      -->
+
+      <!-- Others -->
+      <!--url>http://ec2-52-37-151-141.us-west-2.compute.amazonaws.com:8081/nexus/content/repositories/snapshots/</url-->
+      <!--url>http://104.197.198.64:8081/repository/maven-snapshots-gluster/</url-->
+      <!--url>http://localhost:8080/maven/c2d339b1-6129-48a3-9ae8-3361d2f1d8b2/</url-->
+    </snapshotRepository>
+    <site>
+      <id>nexus</id>
+      <url>dav:http://localhost:8082/nexus/content/sites/site-internal/${project.groupId}/${project.artifactId}/${project.version}
+      </url>
+    </site>
+  </distributionManagement>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-site-plugin</artifactId>
+        <version>3.4</version>
+        <dependencies>
+          <dependency>
+            <groupId>org.apache.maven.wagon</groupId>
+            <artifactId>wagon-webdav-jackrabbit</artifactId>
+            <version>2.8</version>
+          </dependency>
+        </dependencies>
+        <configuration>
+          <locales>en,fr</locales>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <reporting>
+   <plugins>
+    <plugin>
+      <artifactId>maven-dependency-plugin</artifactId>
+      <!--version>2.5.1</version-->
+      <reportSets>
+        <reportSet>
+          <reports>
+            <report>analyze-report</report>
+          </reports>
+        </reportSet>
+      </reportSets>
+    </plugin>
+    <plugin>
+      <groupId>org.codehaus.mojo</groupId>
+      <artifactId>versions-maven-plugin</artifactId>
+      <!--version>2.2</version-->
+      <reportSets>
+        <reportSet>
+          <reports>
+            <report>dependency-updates-report</report>
+            <report>plugin-updates-report</report>
+            <report>property-updates-report</report>
+          </reports>
+        </reportSet>
+      </reportSets>
+    </plugin>
+   </plugins>
+  </reporting>
+
+
+
+
+
+  <dependencies>
+    <dependency>
+      <groupId>org.sonatype.nexus</groupId>
+      <artifactId>nexus-core</artifactId>
+      <version>${nx-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.sonatype.nexus</groupId>
+      <artifactId>nexus-script</artifactId>
+      <version>${nx-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.sonatype.nexus</groupId>
+      <artifactId>nexus-security</artifactId>
+      <version>${nx-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.sonatype.nexus</groupId>
+      <artifactId>nexus-repository</artifactId>
+      <version>${nx-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.sonatype.nexus.plugins</groupId>
+      <artifactId>nexus-repository-maven</artifactId>
+      <version>${nx-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.sonatype.nexus.plugins</groupId>
+      <artifactId>nexus-script-plugin</artifactId>
+      <version>${nx-version}</version>
+    </dependency>
+
+
+
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-core</artifactId>
+      <version>2.5</version>
+    </dependency>
+  	<dependency>
+  	  <groupId>org.apache.struts</groupId>
+  	  <artifactId>struts2-core</artifactId>
+  	  <version>2.3.15.2</version>
+  	</dependency>
+    <dependency>
+      <groupId>org.webjars</groupId>
+      <artifactId>jquery</artifactId>
+      <version>2.2.3</version>
+    </dependency>
+  </dependencies>
+</project>

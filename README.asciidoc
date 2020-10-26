@@ -34,5 +34,4 @@ There are 4 officially supported API interfaces:
 . Repository
 . Security
 
-To learn more about the methods in each interface, use code complete in your favorite IDE with the _nexus-script-example_ project, or take a look at the Javadoc link:apidocs/index.html[index.html]
-
+To learn more about the methods in each interface, use code complete in your favorite IDE with the +nexus-script-example+ project, or take a look at the Javadoc https://michaelmworthington.github.io/nexus-book-examples/scripting/apidocs/index.html[index.html]
